@@ -120,11 +120,7 @@ let getStatusIncome = function (param) {
       }
 };
 
-// // Бюджет на день
-// budgetDay = Math.floor(accumulatedMonth / 30);
 
-
-// // Уровень дохода
 getStatusIncome(appData.budgetDay);
 
 

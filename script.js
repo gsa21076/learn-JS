@@ -21,14 +21,16 @@ let isNumber = function (n) {
 let appData = {
   income: { 'сдача в аренду': 3000 },
   addIncome: [],
-  expences: {},
+  expences: {},// расходы за месяц
   addExpenses: ['Kоммуналка, Бензин, Кредит'],
   deposit: false,
-  mission: 150000,
+  mission: 150000,// цель
   period: 8,
-  budget: money,
-  budgetMonth: 0,
-  expensesMonth: 0,
+  budget: money, // доход за месяц
+  budgetMonth: 0,// Бюджет на месяц
+  budgetDay: 0, // бюджет на месяц
+  expensesMonth: 0, // расходы за месяц
+
   asking: function () {
     let addExpenses = (prompt
       ('Перечислите возможные расходы за рассчитываемый период (через запятую) ?', 'Квартплата, Кредит, Бензин'));
@@ -55,18 +57,19 @@ let appData = {
   getExpensesMonth: function () {
     for (let key in appData.expences) {
       appData.expensesMonth += +appData.expences[key];
-      return appData.expensesMonth;
     }
+
   },
 
   // ф-ия месячный бюджет
-  getAccumulatedMonth: function (data1, data2) {
-    return data1 - data2;
+  getBudget: function () {
+    appData.budgetMonth = appData.budget - appData.expensesMonth;
+    appData.budgetDay = appData.budgetMonth / 30;
   },
 
   // ф-ия достижение цели
-  getTargetMonth: function (param1, param2) {
-    return Math.ceil(param1 / param2);
+  getTargetMonth: function () {
+    return Math.ceil(appData.mission / appData.budgetMonth);
   }
 
 };
@@ -76,10 +79,33 @@ console.log(typeof appData.income);
 console.log(typeof appData.deposit);
 
 appData.asking();
-
 appData.getExpensesMonth();
+appData.getBudget();
+
+// Депозит в банке
+if (appData.deposit) {
+  console.log('Есть вклад в банке');
+} else {
+  console.log('Вклада в банке нет');
+}
+
+console.log('Расходы за месяц : ' + appData.expensesMonth);
+
+//  Вывод бюджета на месяц
+console.log('Бюджет на месяц : ' + appData.budgetMonth);
+
+// Расчет достижения цели
+console.log('Моя цель - накопить ' + appData.mission);
+
+if (appData.getTargetMonth() < 0) {
+  console.log('Цель НЕ будет достигнута');
+} else {
+  console.log('Цель будет достигнута за ' + appData.getTargetMonth() + ' месяцев');
+}
 
 // ф-ия статуса дохода
+
+console.log('Бюджет на день ' + appData.budgetDay);
 let getStatusIncome = function (param) {
   if (param > 1200) {
     console.log('У вас высокий уровень дохода');
@@ -94,33 +120,12 @@ let getStatusIncome = function (param) {
       }
 };
 
+// // Бюджет на день
+// budgetDay = Math.floor(accumulatedMonth / 30);
 
-// Депозит в банке
-if (appData.deposit) {
-  console.log('Есть вклад в банке');
-} else {
-  console.log('Вклада в банке нет');
-}
 
-console.log('Расходы за месяц : ' + appData.expensesMonth);
-
-// Расчет бюджета на месяц
-let accumulatedMonth = appData.getAccumulatedMonth(money, appData.expensesMonth);
-
-// Расчет достижения цели
-console.log('Моя цель - накопить ' + appData.mission);
-if (appData.getTargetMonth(appData.mission, accumulatedMonth) < 0) {
-  console.log('Цель НЕ будет достигнута');
-} else {
-  console.log('Цель будет достигнута за ' + appData.getTargetMonth(appData.mission, accumulatedMonth) + ' месяцев');
-}
-
-// Бюджет на день
-budgetDay = Math.floor(accumulatedMonth / 30);
-console.log('Бюджет на день ' + budgetDay);
-
-// Уровень дохода
-getStatusIncome(budgetDay);
+// // Уровень дохода
+getStatusIncome(appData.budgetDay);
 
 
 

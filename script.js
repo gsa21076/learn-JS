@@ -34,20 +34,29 @@ let appData = {
       ('Перечислите возможные расходы за рассчитываемый период (через запятую) ?', 'Квартплата, Кредит, Бензин'));
     appData.addExpenses = addExpenses.toLowerCase().split(',');
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
+
+    // ввод расходов за месяц
+    let name, s;
+    for (i = 0; i < 2; i++) {
+      // Статьи расходов
+      do {
+        name = prompt('Введите обязательную статью расходов № ' + (i + 1));
+        s = prompt('Во сколько это обойдется?');
+        appData.expences[name] = s;
+        console.log(appData.expences);
+      } while (!isNumber(s));
+    }
+
+
+
   },
 
   // ф-ия расходов за месяц
   getExpensesMonth: function () {
-    let s;
-    for (i = 0; i < 2; i++) {
-      // Статьи расходов
-      prompt('Введите обязательную статью расходов № ' + (i + 1));
-      do {
-        s = prompt('Во сколько это обойдется?');
-      } while (!isNumber(s));
-      appData.expensesMonth += +s;
+    for (let key in appData.expences) {
+      appData.expensesMonth += +appData.expences[key];
+      return appData.expensesMonth;
     }
-    return appData.expensesMonth;
   },
 
   // ф-ия месячный бюджет

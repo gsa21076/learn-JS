@@ -5,7 +5,14 @@ let data = document.getElementById('timeBlock');
 
 let data2 = document.getElementById('timeBlockShort');
 let endHours = '';
-
+let date = new Date();
+let day = date.getDate();
+let year = date.getFullYear();
+let month = date.toLocaleString('ru', { month: 'long' });
+let dayweek = week[date.getDay() - 1];
+let hours = date.getHours();
+let minutes = date.getMinutes();
+let seconds = date.getSeconds();
 
 // ф-ия окончания слова час
 let endWords = function (hours) {
@@ -20,25 +27,14 @@ let endWords = function (hours) {
     }
   }
 };
-
 //  вывод формата №1
 let time = function () {
-  const week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-
-  let date = new Date();
-  let day = date.getDate();
-  let year = date.getFullYear();
-  let month = date.toLocaleString('ru', { month: 'long' });
-  let dayweek = week[date.getDay() - 1];
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  let seconds = date.getSeconds();
 
   month = month.substring(0, month.length - 1) + 'я';
   endWords(hours, minutes, seconds);
   return 'Сегодня ' + dayweek + ", " + day + ' ' + month + " " + year + " года, " + hours + " час" + endHours + ' ' + minutes + " минут " + seconds + ' секунд';
 
-}
+};
 setInterval(() => data.innerHTML = time(), 1000);
 
 
@@ -55,15 +51,7 @@ let zero = function (item) {
 //вывод № 2
 let time2 = function () {
 
-  let date = new Date();
-  let day = zero(date.getDate());
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let hours = zero(date.getHours());
-  let minutes = zero(date.getMinutes());
-  let seconds = zero(date.getSeconds());
-
   return day + '.' + month + '.' + year + ' - ' + hours + ':' + minutes + ':' + seconds;
-}
+};
 setInterval(() => data2.innerHTML = time2(), 1000);
 

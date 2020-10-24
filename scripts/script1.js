@@ -4,25 +4,17 @@ const todoControl = document.querySelector('.todo-control'),
   headerInput = document.querySelector('.header-input'),
   todoList = document.querySelector('.todo-list'),
   todoCompleted = document.querySelector('.todo-completed');
-// let todoData = [];
 let todoData = localStorage.getItem('Data');
-console.log(todoData);
 todoData = JSON.parse(todoData);
-console.log(todoData);
-// if (todoData) {
+
 
 // }
 if (todoData === null) {
   todoData = [];
 }
 
-// let todoDatajson = localStorage.getItem('todoData'.todoDatajson);
-// todoData = JSON.parse;
-// console.log(todoData);
-
-
+// запись в locaStorage
 const saveObj = function () {
-  //   // запись в locaStorage
   console.log(typeof todoData);
   console.log(todoData);
 
@@ -30,10 +22,6 @@ const saveObj = function () {
     localStorage.setItem('Data', JSON.stringify(todoData));
   });
 
-
-
-  // let todoDatajson = JSON.stringify(todoData);
-  // localStorage.setItem('todoData', todoDatajson);
   render();
 };
 

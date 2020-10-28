@@ -13,7 +13,7 @@ const
   additionalIncomeItem = document.querySelectorAll('.additional_income-item'),// возможные доходы наименование
   additionalExpensesItem = document.querySelector('.additional_expenses-item'),// возможный расходы наименование
 
-  budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],//бюджет на месяц
+  budgetMonthValue = document.querySelector('.budget_month-value'),//бюджет на месяц
   budgetDayValue = document.getElementsByClassName('budget_day-value')[0],//бюджет на день
   expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],//расходы за месяц
   additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],//возможные доходы
@@ -24,9 +24,7 @@ const
 
   salaryAmount = document.querySelector('.salary-amount'),// месячный доход
   incomeTitle = document.querySelector('.income-title'),// дополнит доход наименование
-  // incomeAmount = document.querySelector('.income-amount'),// дополнит доход сумма
   expensesTitle = document.querySelector('.expenses-title'),// дополнит расход наименование
-  // expensesAmount = document.querySelector('.expenses-amount'),// дополнит расход сумма
   depositAmount = document.querySelector('.deposit-amount'),// сумма вклада
   depositPercent = document.querySelector('.deposit-percent'),// процент по вкладу
   targetAmounte = document.querySelector('.target-amount'),// цель
@@ -34,8 +32,8 @@ const
   periodAmount = document.querySelector('.period-amount'),//число в периоде
   inputsType = document.querySelectorAll(' input[type=text]');
 
-let incomeItems = document.querySelectorAll('.income-items'),// дополнительные доходы
-  expensesItems = document.querySelectorAll('.expenses-items');
+let incomeItems = document.querySelectorAll('.income-items'),
+  expensesItems = document.querySelectorAll('.expenses-items');// дополнительные доходы
 
 
 // ф-ия проверки ввода числа
@@ -43,6 +41,7 @@ const isNumber = function (n) {
   // переводит строку в число и проверяет на NaN и infinity
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
+
 
 const AppData = function () {
   this.income = {};
@@ -70,19 +69,6 @@ AppData.prototype.start = function () {
   this.showResult();
 };
 
-// ф-ия cansel
-AppData.prototype.reset = function () {
-  const inputsType = document.querySelectorAll(' input[type=text]');
-  inputsType.forEach(function (item) {
-    item.removeAttribute('disabled');
-    item.value = '';
-    startBtn.style.display = 'block';
-    cancelBtn.style.display = 'none';
-    periodSelect.value = 1;
-    periodAmount.textContent = 1;
-
-  });
-};
 
 // добавнение полей расхода
 AppData.prototype.addExpensesBlock = function () {
@@ -106,6 +92,7 @@ AppData.prototype.getExpenses = function () {
     cashExpenses = item.querySelector('.expenses-amount').value;
     if (isNumber(cashExpenses)) {
       _this.expenses[itemExpenses] = +cashExpenses;
+
       _this.expensesMonth += _this.expenses[itemExpenses];
     } else {
       cashExpenses = 0;
@@ -123,7 +110,8 @@ AppData.prototype.addIncomeBlock = function () {
   if (incomeItems.length === 3) {
     incomePlus.style.display = 'none';// скрываем кнопку +
   }
-};
+},
+  ;
 
 // получение доходов
 AppData.prototype.getIncome = function () {
@@ -164,7 +152,7 @@ AppData.prototype.getAddIncome = function () {
       _this.addIncome.push(itemValue);
     }
   });
-};
+}
 
 // блокировка unput
 AppData.prototype.inputBlock = function () {
@@ -172,6 +160,35 @@ AppData.prototype.inputBlock = function () {
   inputsType.forEach(function (item) {
     item.setAttribute('disabled', '');
   });
+};
+
+// ф-ия cansel
+AppData.prototype.reset = function () {
+  const inputsType = document.querySelectorAll(' input[type=text]');
+  inputsType.forEach(function (item) {
+    item.removeAttribute('disabled');
+    item.value = '';
+    startBtn.style.display = 'block';
+    cancelBtn.style.display = 'none';
+    periodSelect.value = 1;
+    periodAmount.textContent = 1;
+  });
+};
+
+// вывод результата
+AppData.prototype.showResult = function () {
+
+  budgetMonthValue.value = this.budgetMonth;
+  budgetDayValue.value = Math.round(this.budgetDay);
+  expensesMonthValue.value = this.expensesMonth;
+  additionalExpensesValue.value = this.addExpenses.join(', ');
+  additionalIncomeValue.value = this.addIncome.join(', ');
+  targetMonthValue.value = this.getTargetMonth();
+  incomePeriodValue.value = this.calcSaveMoney();
+  startBtn.style.display = 'none';
+  cancelBtn.style.display = 'block';
+
+  this.inputBlock();
 };
 
 // ф-ия месячный бюджет
@@ -187,37 +204,15 @@ AppData.prototype.getTargetMonth = function () {
 
 // ф-ия подсчета накоплений за period
 AppData.prototype.calcSaveMoney = function () {
-  this.budgetMonth = budgetMonthValue.value;
-  incomePeriodValue.value = this.budgetMonth * periodSelect.value;
+  incomePeriodValue.value = budgetMonthValue.value * periodSelect.value;
   periodAmount.textContent = periodSelect.value;
   return incomePeriodValue.value;
 };
 
-// вывод результата
-AppData.prototype.showResult = function () {
-  budgetMonthValue.value = this.budgetMonth;
-  budgetDayValue.value = Math.round(this.budgetDay);
-  expensesMonthValue.value = this.expensesMonth;
-  additionalExpensesValue.value = this.addExpenses.join(', ');
-  additionalIncomeValue.value = this.addIncome.join(', ');
-  targetMonthValue.value = this.getTargetMonth();
-  incomePeriodValue.value = this.calcSaveMoney();
-  startBtn.style.display = 'none';
-  cancelBtn.style.display = 'block';
-
-  this.inputBlock();
-};
-
-// Слушатели событий
-AppData.prototype.eventListeners = function () {
+// слушатели событий
+AppData.prototype.addEventListener = function () {
   const _this = this;
-  startBtn.addEventListener('click', function () {
-    if (salaryAmount.value === '') {
-      alert('Ошибка! Поле "месячный доход" должно быть заполнено');
-    } else {
-      _this.start();
-    }
-  });
+  startBtn.addEventListener('click', _this.start());
 
   expensesPlus.addEventListener('click', _this.addExpensesBlock);
   incomePlus.addEventListener('click', _this.addIncomeBlock);
@@ -227,5 +222,3 @@ AppData.prototype.eventListeners = function () {
 
 const appData = new AppData();
 appData.eventListeners();
-
-

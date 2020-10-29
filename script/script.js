@@ -72,15 +72,26 @@ AppData.prototype.start = function () {
 
 // ф-ия cansel
 AppData.prototype.reset = function () {
+  this.budget = 0;
+  this.addIncome = [];
+  this.addExpenses = [];
+  this.incomeMonth = 0;
+  this.expensesMonth = 0;
+  this.income = {};
+  this.expenses = {};
+  this.deposit = false;
+  this.percentDeposit = 0;
+  this.moneyDeposit = 0;
+  this.budgetMonth = 0;
+  this.budgetDay = 0;
+  startBtn.style.display = 'block';
+  cancelBtn.style.display = 'none';
+  periodSelect.value = 1;
+  periodAmount.textContent = 1;
   const inputsType = document.querySelectorAll(' input[type=text]');
   inputsType.forEach(function (item) {
     item.removeAttribute('disabled');
     item.value = '';
-    startBtn.style.display = 'block';
-    cancelBtn.style.display = 'none';
-    periodSelect.value = 1;
-    periodAmount.textContent = 1;
-
   });
 };
 

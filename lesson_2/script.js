@@ -1,3 +1,4 @@
+// "use strict";
 
 let money = 67000;
 const income = 'сдача в аренду';
@@ -5,6 +6,7 @@ let addExpenses = 'Kоммуналка, Музыкальная Школа, Кр�
 let deposit = true;
 const mission = 150000;
 const period = 8;
+let budgetMonth = 0;
 
 console.log(typeof money);
 console.log(typeof income);
@@ -16,3 +18,6 @@ console.log((addExpenses.toLowerCase()).split(', '));
 
 let budgetDay = money / 30;
 console.log(budgetDay);
+
+
+

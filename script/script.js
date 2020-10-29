@@ -111,7 +111,6 @@ AppData.prototype.addExpensesBlock = function () {
 AppData.prototype.getExpenses = function () {
   const _this = this;
   let cashExpenses = '';
-  this.expensesMonth = 0;
   expensesItems.forEach(function (item) {
     const itemExpenses = item.querySelector('.expenses-title').value;
     cashExpenses = item.querySelector('.expenses-amount').value;
@@ -140,7 +139,6 @@ AppData.prototype.addIncomeBlock = function () {
 AppData.prototype.getIncome = function () {
   const _this = this;
   let cashIncomes = 0;
-  this.incomeMonth = 0;
   incomeItems.forEach(function (item) {
     const itemIncomes = item.querySelector('.income-title').value;
     cashIncomes = item.querySelector('.income-amount').value;
@@ -156,7 +154,6 @@ AppData.prototype.getIncome = function () {
 // вывод возможных расходов
 AppData.prototype.getAddExpenses = function () {
   const _this = this;
-  _this.addExpenses = [];
   const addExpenses = additionalExpensesItem.value.split(',');
   addExpenses.forEach(function (item) {
     item = item.trim();
@@ -168,7 +165,6 @@ AppData.prototype.getAddExpenses = function () {
 
 AppData.prototype.getAddIncome = function () {
   const _this = this;
-  _this.addIncome = [];
   additionalIncomeItem.forEach(function (item) {
     let itemValue = item.value.trim();
     if (itemValue !== '') {
@@ -219,24 +215,24 @@ AppData.prototype.showResult = function () {
   this.inputBlock();
 };
 
-// Слушатели событий
 AppData.prototype.eventListeners = function () {
   const _this = this;
   startBtn.addEventListener('click', function () {
     if (salaryAmount.value === '') {
       alert('Ошибка! Поле "месячный доход" должно быть заполнено');
-    } else {
-      _this.start();
     }
   });
+  startBtn.addEventListener('click', _this.start.bind(_this));
 
   expensesPlus.addEventListener('click', _this.addExpensesBlock);
   incomePlus.addEventListener('click', _this.addIncomeBlock);
   periodSelect.addEventListener('input', _this.calcSaveMoney);
-  cancelBtn.addEventListener('click', _this.reset);
+  cancelBtn.addEventListener('click', _this.reset.bind(_this));
 };
 
 const appData = new AppData();
 appData.eventListeners();
+
+
 
 

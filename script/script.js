@@ -24,9 +24,7 @@ const
 
   salaryAmount = document.querySelector('.salary-amount'),// месячный доход
   incomeTitle = document.querySelector('.income-title'),// дополнит доход наименование
-  // incomeAmount = document.querySelector('.income-amount'),// дополнит доход сумма
   expensesTitle = document.querySelector('.expenses-title'),// дополнит расход наименование
-  // expensesAmount = document.querySelector('.expenses-amount'),// дополнит расход сумма
   depositAmount = document.querySelector('.deposit-amount'),// сумма вклада
   depositPercent = document.querySelector('.deposit-percent'),// процент по вкладу
   targetAmounte = document.querySelector('.target-amount'),// цель
@@ -87,7 +85,6 @@ const appData = {
   getExpenses: function () {
     const _this = this;
     let cashExpenses = '';
-    this.expensesMonth = 0;
     expensesItems.forEach(function (item) {
       const itemExpenses = item.querySelector('.expenses-title').value;
       cashExpenses = item.querySelector('.expenses-amount').value;
@@ -108,7 +105,6 @@ const appData = {
     incomeItems = document.querySelectorAll('.income-items');
     incomeItems[incomeItems.length - 1].querySelector('.income-title').value = '';// очистка содержимого
     incomeItems[incomeItems.length - 1].querySelector('.income-amount').value = '';// очистка содержимого
-    console.log(incomeItems);
     if (incomeItems.length === 3) {
       incomePlus.style.display = 'none';// скрываем кнопку +
     }
@@ -118,8 +114,6 @@ const appData = {
   getIncome: function () {
     const _this = this;
     let cashIncomes = 0;
-    this.incomeMonth = 0;
-    console.log(this.incomeMonth);
     incomeItems.forEach(function (item) {
       const itemIncomes = item.querySelector('.income-title').value;
       cashIncomes = item.querySelector('.income-amount').value;
@@ -135,7 +129,6 @@ const appData = {
   // вывод возможных расходов
   getAddExpenses: function () {
     const _this = this;
-    _this.addExpenses = [];
     const addExpenses = additionalExpensesItem.value.split(',');
     addExpenses.forEach(function (item) {
       item = item.trim();
@@ -147,7 +140,6 @@ const appData = {
 
   getAddIncome: function () {
     const _this = this;
-    _this.addIncome = [];
     additionalIncomeItem.forEach(function (item) {
       let itemValue = item.value.trim();
       if (itemValue !== '') {
@@ -224,10 +216,10 @@ const appData = {
   }
 
 };
+
 startBtn.addEventListener('click', function () {
   if (salaryAmount.value === '') {
     alert('Ошибка! Поле "месячный доход" должно быть заполнено');
-    // appData.reset();
   }
 });
 startBtn.addEventListener('click', appData.start.bind(appData));
@@ -235,4 +227,4 @@ startBtn.addEventListener('click', appData.start.bind(appData));
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.calcSaveMoney);
-cancelBtn.addEventListener('click', appData.reset);
+cancelBtn.addEventListener('click', appData.reset.bind(appData));

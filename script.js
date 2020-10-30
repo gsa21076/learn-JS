@@ -8,8 +8,10 @@ class First {
 
 class Second extends First {
   hello2() {
-    this.hello();
+    super.hello();
+
     console.log('А я наследуемый метод!');
+
   }
 }
 

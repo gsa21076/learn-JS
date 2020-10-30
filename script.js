@@ -1,6 +1,5 @@
 'use strict';
 
-
 class First {
   hello() {
     console.log('Привет я метод родителя!');
@@ -8,21 +7,11 @@ class First {
 }
 
 class Second extends First {
-  hello() {
-    console.log('Привет я метод родителя!');
-    this.hello2();
-  }
-
   hello2() {
+    this.hello();
     console.log('А я наследуемый метод!');
   }
-
-  // {
-  //   const first = new First();
-  //   first.hello();
-  //   console.log('А я наследуемый метод!');
-  // }
 }
 
 const second = new Second();
-second.hello();
+second.hello2();

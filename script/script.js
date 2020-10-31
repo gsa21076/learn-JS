@@ -120,7 +120,6 @@ class AppData {
       if (isNumber(cashExpenses)) {
         this.expenses[itemExpenses] = +cashExpenses;
         this.expensesMonth += this.expenses[itemExpenses];
-      } else {
       }
     });
   }
@@ -225,7 +224,7 @@ class AppData {
       if (isNumber(depositAmount.value)) {
         this.moneyDeposit = depositAmount.value;
       } else {
-        alert('Введите коррктрое значение');
+        alert('Введите корректное значение');
         this.moneyDeposit = 0;
       }
     }
@@ -234,8 +233,8 @@ class AppData {
   // ввод процентов вклада
   changePersent() {
     const valueSelect = this.value;
-    console.log(valueSelect);
     if (valueSelect === 'other') {
+      depositPercent.value = '';
       depositPercent.style.display = 'inline-block';
       depositPercent.addEventListener('keyup', () => {
         if (depositPercent.value < 0 || depositPercent.value > 100 || !isNumber(depositPercent.value)) {

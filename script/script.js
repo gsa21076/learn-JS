@@ -1,6 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
   'use strict';
-
   //Timer
   function countTimer(deadLine) {
     const timerHours = document.querySelector('#timer-hours'),
@@ -20,6 +19,8 @@ window.addEventListener('DOMContentLoaded', () => {
       return { timeRemaining, hours, minutes, seconds };
     }
 
+
+
     function updateClock() {
       let timer = getTimeRemaining();
       timerHours.textContent = timer.hours;
@@ -37,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   }
 
-  countTimer('6 november 2020');
+  countTimer('4 november 2020');
 
 
   // menu
@@ -45,14 +46,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const btnMenu = document.querySelector('.menu'),
       menu = document.querySelector('menu'),
-      body = document.querySelector('body');
+      closeBtn = document.querySelector('.close-btn'),
+      menuItems = menu.querySelectorAll('ul>li'),
+      main = document.querySelector('main');
 
-    const openMenu = (event) => {
-      console.log(event);
-      let width = document.documentElement.clientWidth,
+    const openMenu = () => {
+      let menuRectWidth = menu.getBoundingClientRect().width,
+        width = document.documentElement.clientWidth,
         count = 0;
       menu.style.left = count + 'px';
-      const goLeft = () => {
+      let goLeft = () => {
         count += 10;
         if (width > 768) {
           if (count < width) {
@@ -73,21 +76,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const getMenu = (event) => {
       let target = event.target;
-
-      if (target.closest('.menu')) {
-        openMenu();
-      }
-
+      console.log(target);
       if (target.classList.contains('close-btn') ||
-        target.closest('li') ||
-        target.closest('main')) {
+        target.closest('li')) {
+
         closeMenu();
       }
+
     };
-    body.addEventListener('click', getMenu);
-
-
-  }
+    btnMenu.addEventListener('click', openMenu);
+    menu.addEventListener('click', getMenu);
+  };
   toggleMenu();
 
 

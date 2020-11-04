@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
   'use strict';
+
   //Timer
   function countTimer(deadLine) {
     const timerHours = document.querySelector('#timer-hours'),
@@ -19,8 +20,6 @@ window.addEventListener('DOMContentLoaded', () => {
       return { timeRemaining, hours, minutes, seconds };
     }
 
-
-
     function updateClock() {
       let timer = getTimeRemaining();
       timerHours.textContent = timer.hours;
@@ -38,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   }
 
-  countTimer('4 november 2020');
+  countTimer('6 november 2020');
 
 
   // menu
@@ -46,15 +45,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const btnMenu = document.querySelector('.menu'),
       menu = document.querySelector('menu'),
-      closeBtn = document.querySelector('.close-btn'),
-      menuItems = menu.querySelectorAll('ul>li');
+      body = document.querySelector('body');
 
-    const openMenu = () => {
-      let menuRectWidth = menu.getBoundingClientRect().width,
-        width = document.documentElement.clientWidth,
+    const openMenu = (event) => {
+      console.log(event);
+      let width = document.documentElement.clientWidth,
         count = 0;
       menu.style.left = count + 'px';
-      let goLeft = () => {
+      const goLeft = () => {
         count += 10;
         if (width > 768) {
           if (count < width) {
@@ -67,34 +65,89 @@ window.addEventListener('DOMContentLoaded', () => {
       };
       goLeft();
     };
+
     const closeMenu = () => {
       menu.style.left = '0px';
       menu.style.transform = 'translate(-100%)';
     };
 
-    btnMenu.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
-    menuItems.forEach(elem => elem.addEventListener('click', closeMenu));
-  };
+    const getMenu = (event) => {
+      let target = event.target;
+
+      if (target.closest('.menu')) {
+        openMenu();
+      }
+
+      if (target.classList.contains('close-btn') ||
+        target.closest('li') ||
+        target.closest('main')) {
+        closeMenu();
+      }
+    };
+    body.addEventListener('click', getMenu);
+
+
+  }
   toggleMenu();
 
 
   // popup
   const togglePopup = () => {
     const popup = document.querySelector('.popup'),
-      popupBtn = document.querySelectorAll('.popup-btn'),
-      popupClose = document.querySelector('.popup-close');
+      popupBtn = document.querySelectorAll('.popup-btn');
 
     popupBtn.forEach((elem) => {
       elem.addEventListener('click', () => {
-        console.log(popup);
         popup.style.display = 'block';
       });
     });
-    popupClose.addEventListener('click', () => {
-      popup.style.display = 'none';
+
+    popup.addEventListener('click', (event) => {
+      let target = event.target;
+      if (target.classList.contains('popup-close')) {
+        popup.style.display = 'none';
+      } else {
+        target = target.closest('.popup-content');
+        console.log(target);
+        if (!target) {
+          popup.style.display = 'none';
+        }
+      }
     });
+
+
   };
   togglePopup();
 
+  // tabs
+  const tabs = () => {
+    const tabHeader = document.querySelector('.service-header'),
+      tab = tabHeader.querySelectorAll('.service-header-tab'),
+      tabContent = document.querySelectorAll('.service-tab');
+
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        } else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    };
+
+    tabHeader.addEventListener('click', (event) => {
+      let target = event.target;
+      target = target.closest('.service-header-tab');
+      if (target.classList.contains('service-header-tab')) {
+        tab.forEach((item, i) => {
+          if (item === target) {
+            toggleTabContent(i);
+          }
+        });
+      }
+    });
+  };
+  tabs();
 });

@@ -47,7 +47,6 @@ window.addEventListener('DOMContentLoaded', () => {
       body = document.querySelector('body');
 
     const openMenu = (event) => {
-      console.log(event);
       let width = document.documentElement.clientWidth,
         count = 0;
       menu.style.left = count + 'px';
@@ -107,7 +106,6 @@ window.addEventListener('DOMContentLoaded', () => {
         popup.style.display = 'none';
       } else {
         target = target.closest('.popup-content');
-        console.log(target);
         if (!target) {
           popup.style.display = 'none';
         }

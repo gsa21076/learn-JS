@@ -150,8 +150,16 @@ window.addEventListener('DOMContentLoaded', () => {
   const slider = () => {
     const slider = document.querySelector('.portfolio-content'),
       slide = document.querySelectorAll('.portfolio-item'),
-      btn = document.querySelectorAll('.portfolio-btn'),
-      dot = document.querySelectorAll('.dot');
+      portfolioDots = document.querySelector('.portfolio-dots');
+
+    slide.forEach((i) => {
+      const dot = document.createElement('li');
+      portfolioDots.append(dot);
+      dot.classList.add('dot');
+    });
+    const dot = document.querySelectorAll('.dot');
+    dot[0].classList.add('dot-active');
+
     let currentSlide = 0,
       interval;
 

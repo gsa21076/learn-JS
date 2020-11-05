@@ -235,8 +235,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
   slider();
-
-
 });
 
 

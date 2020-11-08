@@ -18,7 +18,6 @@ class Todo {
     this.todoList.textContent = '';
     this.todoCompleted.textContent = '';
     this.todoData.forEach(this.createItem, this);
-    console.log(this);
     this.addToStorage();
   }
 
@@ -26,7 +25,6 @@ class Todo {
     const li = document.createElement('li');
     li.classList.add('todo-item');
     li.key = todo.key;
-    console.log(li.key);
     if (li.key !== undefined) {
       li.insertAdjacentHTML('beforeend', `
         <span class="text-todo">${todo.value}</span>
@@ -64,19 +62,12 @@ class Todo {
   }
 
   deleteItem(key) {
-    console.log(key);
     this.todoData.forEach((elem, i) => {
       if (elem.key === key) {
         let data = this.todoData;
-        console.log(elem, i);
-        // elem.key = '';
         delete elem.key;
         delete elem.value;
         delete elem.completed;
-        // this.todoData.set(elem.key, elem);
-
-
-        // console.log(this.todoData);
       }
     });
     this.render();
@@ -85,7 +76,6 @@ class Todo {
   complatedItem(key) {
     this.todoData.forEach((elem) => {
       if (elem.key === key) {
-        console.log(elem);
         elem.completed = !elem.completed;
       }
     });

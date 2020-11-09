@@ -53,11 +53,11 @@ window.addEventListener('DOMContentLoaded', () => {
         count = 0;
       menu.style.left = count + 'px';
       let goLeft = () => {
-        count += 10;
+        count += 40;
         if (width > 768) {
           if (count < width) {
             menu.style.left = count + 'px';
-            setTimeout(goLeft, 1);
+            requestAnimationFrame(goLeft);
           }
         } else {
           menu.style.transform = 'translate(0)';
@@ -75,7 +75,6 @@ window.addEventListener('DOMContentLoaded', () => {
       let target = event.target;
       if (target.classList.contains('close-btn') ||
         target.closest('li')) {
-
         closeMenu();
       }
 
@@ -235,6 +234,38 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
   slider();
+
+  //calculator
+  const calc = () => {
+    const input = document.querySelectorAll('.calc-item');
+    input.forEach((elem) => {
+      elem.addEventListener('input', () => {
+        elem.value = elem.value.replace(/[^\d\.]/g, '');
+      });
+    });
+  };
+
+  calc();
+
+
+  // command
+  const command = () => {
+    const img = document.querySelectorAll('.command__photo');
+    let imgTarget;
+    img.forEach((elem) => {
+      elem.addEventListener('mouseover', (event) => {
+        imgTarget = event.target.src;
+        event.target.src = event.target.dataset.img;
+      });
+      elem.addEventListener('mouseout', (event) => {
+        event.target.src = imgTarget;
+      });
+    });
+
+
+  };
+
+  command();
 });
 
 

@@ -264,7 +264,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       if (typeValue && squareValue) {
-        total = price * typeValue * squareValue * countValue * dayValue;
+        total = Math.round(price * typeValue * squareValue * countValue * dayValue);
       }
 
 
@@ -280,7 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let totalPrice = setInterval(updateTotal, 1);
     };
 
-    calcBlock.addEventListener('change', (event) => {
+    calcBlock.addEventListener('input', (event) => {
       event.target.value = event.target.value.replace(/[^\d\.]/g, '');
       i = 0;
       const target = event.target;

@@ -328,29 +328,33 @@ window.addEventListener('DOMContentLoaded', () => {
     statusMessage.style.cssText = `font-size: 2rem;
     color: grey;`;
 
-    const postData = (body, outputData, errorData) => {
-      const request = new XMLHttpRequest();
-      request.addEventListener('readystatechange', () => {
-        if (request.readyState !== 4) {
-          return;
-        }
-        if (request.status === 200) {
-          inputName.forEach(elem => elem.value = '');
-          inputPhone.forEach(elem => elem.value = '');
-          inputEmail.forEach(elem => elem.value = '');
-          inputMess.value = '';
-          outputData();
-        } else {
-          inputName.forEach(elem => elem.value = '');
-          inputPhone.forEach(elem => elem.value = '');
-          inputEmail.forEach(elem => elem.value = '');
-          inputMess.value = '';
-          errorData(request.status);
-        }
+    const postData = (body) => {
+
+      return new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        request.addEventListener('readystatechange', () => {
+          if (request.readyState !== 4) {
+            return;
+          }
+          if (request.status === 200) {
+            inputName.forEach(elem => elem.value = '');
+            inputPhone.forEach(elem => elem.value = '');
+            inputEmail.forEach(elem => elem.value = '');
+            inputMess.value = '';
+            resolve();
+          } else {
+            inputName.forEach(elem => elem.value = '');
+            inputPhone.forEach(elem => elem.value = '');
+            inputEmail.forEach(elem => elem.value = '');
+            inputMess.value = '';
+            reject(request.status);
+          }
+        });
+        request.open('POST', './server.php');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(body));
       });
-      request.open('POST', './server.php');
-      request.setRequestHeader('Content-Type', 'application/json');
-      request.send(JSON.stringify(body));
+
     };
 
     inputPhone.forEach((phone) => {
@@ -372,19 +376,18 @@ window.addEventListener('DOMContentLoaded', () => {
         formData1.forEach((val, key) => {
           body[key] = val;
         });
-        postData(body, () => {
-          statusMessage.textContent = successMessage;
-        },
-          (error) => {
+
+        postData(body)
+          .then(statusMessage.textContent = successMessage)
+          .catch((request) => {
             statusMessage.textContent = errorMessage;
-            console.error(error);
+            console.error(request.status);
           });
+
       });
     });
   };
-
   sendForm();
-
 
 });
 

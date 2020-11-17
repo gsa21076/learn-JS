@@ -329,32 +329,17 @@ window.addEventListener('DOMContentLoaded', () => {
     color: grey;`;
 
     const postData = (body) => {
-
-      return new Promise((resolve, reject) => {
-        const request = new XMLHttpRequest();
-        request.addEventListener('readystatechange', () => {
-          if (request.readyState !== 4) {
-            return;
-          }
-          if (request.status === 200) {
-            inputName.forEach(elem => elem.value = '');
-            inputPhone.forEach(elem => elem.value = '');
-            inputEmail.forEach(elem => elem.value = '');
-            inputMess.value = '';
-            resolve();
-          } else {
-            inputName.forEach(elem => elem.value = '');
-            inputPhone.forEach(elem => elem.value = '');
-            inputEmail.forEach(elem => elem.value = '');
-            inputMess.value = '';
-            reject(request.status);
-          }
-        });
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify(body));
+      inputName.forEach(elem => elem.value = '');
+      inputPhone.forEach(elem => elem.value = '');
+      inputEmail.forEach(elem => elem.value = '');
+      inputMess.value = '';
+      return fetch('./server.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
       });
-
     };
 
     inputPhone.forEach((phone) => {
@@ -378,10 +363,16 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         postData(body)
-          .then(statusMessage.textContent = successMessage)
-          .catch((request) => {
+
+          .then((response) => {
+            if (response.status !== 200) {
+              throw new Error('status network not 200');
+            }
+            statusMessage.textContent = successMessage;
+          })
+          .catch((error) => {
             statusMessage.textContent = errorMessage;
-            console.error(request.status);
+            console.error(error);
           });
 
       });

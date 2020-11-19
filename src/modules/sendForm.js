@@ -32,7 +32,7 @@ const sendForm = () => {
     });
   });
   inputMess.addEventListener('input', (event) => {
-    event.target.value = event.target.value.replace(/[^А-ЯЁа-яё]*$/gi, '');
+    event.target.value = event.target.value.replace(/[^А-ЯЁа-яё\ \,\.]*$/gi, '');
   });
 
   form.forEach((form) => {

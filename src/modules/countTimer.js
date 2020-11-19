@@ -31,7 +31,9 @@ function countTimer(deadLine) {
       clearInterval(idInterval);
     }
   }
-  let idInterval = setInterval(updateClock, 1000);
+  let idInterval = setTimeout(updateClock, 1);
+
+  idInterval = setInterval(updateClock, 1000);
 }
 
 export default countTimer;

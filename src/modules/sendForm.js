@@ -26,6 +26,12 @@ const sendForm = () => {
     });
   };
 
+  inputName.forEach((name) => {
+    name.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^А-ЯЁа-яё\ ]/g, '');
+    });
+  });
+
   inputPhone.forEach((phone) => {
     phone.addEventListener('input', (event) => {
       event.target.value = event.target.value.replace(/[^\8+\d(10)-]/g, '');
